@@ -1,11 +1,14 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import Message from '@/Components/Message.vue';
 import InputError from '@/Components/InputError.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import { useForm, Head } from '@inertiajs/vue3';
+
+defineProps(['messages']);
  
 const form = useForm({
-    message: '',
+    subject: '',
 });
 </script>
  
@@ -16,13 +19,21 @@ const form = useForm({
         <div class="max-w-2xl mx-auto p-4 sm:p-6 lg:p-8">
             <form @submit.prevent="form.post(route('messages.store'), { onSuccess: () => form.reset() })">
                 <textarea
-                    v-model="form.message"
+                    v-model="form.subject"
                     placeholder="What's on your mind?"
                     class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
                 ></textarea>
-                <InputError :message="form.errors.message" class="mt-2" />
-                <PrimaryButton class="mt-4">Message</PrimaryButton>
+                <InputError :message="form.errors.subject" class="mt-2" />
+                <PrimaryButton class="mt-4">Save</PrimaryButton>
             </form>
+
+            <div class="mt-6 bg-white shadow-sm rounded-lg divide-y">
+                <Message
+                    v-for="message in messages"
+                    :key="message.id"
+                    :message="message"
+                />
+            </div>
         </div>
     </AuthenticatedLayout>
 </template>
