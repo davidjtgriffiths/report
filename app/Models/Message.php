@@ -13,7 +13,8 @@ class Message extends Model
 
     protected $fillable = [
         'subject',
-        'recipientEmail'
+        'recipientEmail',
+        'sent',
     ];
 
     protected $dispatchesEvents = [
