@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use App\Models\Message;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -34,10 +35,7 @@ class MessageController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        $validated = $request->validate([
-            'recipientEmail' => 'required|string|max:255',
-            'subject' => 'required|string|max:255',
-        ]);
+        $validated = $request->validate($this->getValidationRules());
  
         $request->user()->messages()->create($validated);
  
@@ -67,10 +65,7 @@ class MessageController extends Controller
     {
         Gate::authorize('update', $message);
  
-        $validated = $request->validate([
-            'recipientEmail' => 'required|string|max:255',
-            'subject' => 'required|string|max:255',
-        ]);
+        $validated = $request->validate($this->getValidationRules());
  
         $message->update($validated);
  
@@ -87,5 +82,30 @@ class MessageController extends Controller
         $message->delete();
  
         return redirect(route('messages.index'));
+    }
+    
+    /**
+     * Return validation rules for message.
+     */
+    protected function getValidationRules(): array
+    {
+        return [
+            'recipientEmail' => [
+                'nullable',
+                'email',
+                'max:255',
+                function ($attribute, $value, $fail) {
+                    if ($value) {
+                        $userDomain = substr(Auth::user()->email, strrpos(Auth::user()->email, '@') + 1);
+                        $recipientDomain = substr($value, strrpos($value, '@') + 1);
+        
+                        if ($recipientDomain !== $userDomain) {
+                            $fail("The recipient email must be from the same domain as your email ({$userDomain}).");
+                        }
+                    }
+                },
+            ],
+            'subject' => 'required|string|max:255',
+        ];
     }
 }
