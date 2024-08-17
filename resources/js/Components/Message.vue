@@ -9,6 +9,7 @@ import { ref } from 'vue';
 const props = defineProps(['message']);
 
 const form = useForm({
+    recipientEmail: props.message.recipientEmail,
     subject: props.message.subject,
 });
 
@@ -47,14 +48,25 @@ const editing = ref(false);
                 </Dropdown>
             </div>
             <form v-if="editing" @submit.prevent="form.put(route('messages.update', message.id), { onSuccess: () => editing = false })">
-                <textarea v-model="form.subject" class="mt-4 w-full text-gray-900 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"></textarea>
+                <textarea 
+                    v-model="form.recipientEmail"
+                    class="mt-4 w-full text-gray-900 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm">
+                </textarea>
+                <InputError :message="form.errors.recipientEmail" class="mt-2" />
+                <textarea 
+                    v-model="form.subject"
+                    class="mt-4 w-full text-gray-900 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm">
+                </textarea>
                 <InputError :message="form.errors.subject" class="mt-2" />
                 <div class="space-x-2">
                     <PrimaryButton class="mt-4">Save</PrimaryButton>
                     <button class="mt-4" @click="editing = false; form.reset(); form.clearErrors()">Cancel</button>
                 </div>
             </form>
-            <p v-else class="mt-4 text-lg text-gray-900">{{ message.subject }}</p>
+            <div v-else>
+                <p class="mt-4 text-lg text-gray-900">{{ message.recipientEmail }}</p>
+                <p class="mt-4 text-lg text-gray-900">{{ message.subject }}</p>
+            </div>
         </div>
     </div>
 </template>

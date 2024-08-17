@@ -35,6 +35,7 @@ class MessageController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate([
+            'recipientEmail' => 'required|string|max:255',
             'subject' => 'required|string|max:255',
         ]);
  
@@ -67,6 +68,7 @@ class MessageController extends Controller
         Gate::authorize('update', $message);
  
         $validated = $request->validate([
+            'recipientEmail' => 'required|string|max:255',
             'subject' => 'required|string|max:255',
         ]);
  
