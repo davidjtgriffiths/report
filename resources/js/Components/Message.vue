@@ -66,6 +66,9 @@ const editing = ref(false);
             <div v-else>
                 <p class="mt-4 text-lg text-gray-900">{{ message.recipientEmail }}</p>
                 <p class="mt-4 text-lg text-gray-900">{{ message.subject }}</p>
+                <div class="mt-4 w-full flex justify-end">
+                    <PrimaryButton class="mt-4">Open</PrimaryButton>
+                </div>
             </div>
         </div>
     </div>

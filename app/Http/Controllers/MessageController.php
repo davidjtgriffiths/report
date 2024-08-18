@@ -45,9 +45,16 @@ class MessageController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Message $message)
+    public function show($id): Response
     {
-        //
+        // TODO: authorise show message
+        // Gate::authorize('show', $message);
+
+        $message = Message::findOrFail($id);
+        return Inertia::render('Messages/Show', [
+            'message' => $message,
+        ]);
+
     }
 
     /**
@@ -63,6 +70,7 @@ class MessageController extends Controller
      */
     public function update(Request $request, Message $message): RedirectResponse
     {
+        // dd($message);
         Gate::authorize('update', $message);
  
         $validated = $request->validate($this->getValidationRules());
