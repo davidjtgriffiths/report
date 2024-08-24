@@ -5,14 +5,11 @@ import InputError from '@/Components/InputError.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import { ref } from 'vue';
 import { useForm, Head, router } from '@inertiajs/vue3';
+import SendModal from './SendModal.vue';
 
 // Define the props
 const props = defineProps({
   message: Object,
-  // messageId: {
-  //   type: Number,
-  //   required: true
-  // }
 });
 
 // Create a form instance with Inertia.js
@@ -31,7 +28,21 @@ const cancelEdit = () => {
   router.get(route('messages.index'));
 };
 
+const showModal = ref(false);
+const openSendModal = () => {
+  showModal.value = true;
+};
+
 </script>
+
+<style scoped>
+.modal-enter-active, .modal-leave-active {
+  transition: opacity 0.3s ease;
+}
+.modal-enter-from, .modal-leave-to {
+  opacity: 0;
+}
+</style>
  
 <template>
   <Head title="Messages" />
@@ -52,10 +63,18 @@ const cancelEdit = () => {
         <PrimaryButton
           class="mt-4"
           type="button"
-          @click="sendMessage">
+          @click="openSendModal">
             Send
         </PrimaryButton>
       </form>
     </div>
+    <transition name="modal">
+      <SendModal 
+        v-if="showModal" 
+        :message="form.subject"
+        @close="showModal = false"
+        @send="sendMessage"
+      />
+    </transition>
   </AuthenticatedLayout>
 </template>
