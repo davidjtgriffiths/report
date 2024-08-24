@@ -45,29 +45,45 @@ const openSendModal = () => {
 </style>
  
 <template>
-  <Head title="Messages" />
+  <Head title="Edit Message" />
 
   <AuthenticatedLayout>
-    <div class="max-w-2xl mx-auto p-4 sm:p-6 lg:p-8">
-      <h1>Edit Message</h1>
-      <form @submit.prevent="form.put(route('messages.update', message.id), { onSuccess: () => editing = false })"> 
-        <label for="subject">Message Subject:</label>
-        <textarea v-model="form.subject" id="subject" rows="4" cols="50"></textarea>
-        <PrimaryButton class="mt-4" type="submit">Save</PrimaryButton>
-        <PrimaryButton
-          class="mt-4"
-          type="button"
-          @click="cancelEdit">
-            Cancel
-        </PrimaryButton>
-        <PrimaryButton
-          class="mt-4"
-          type="button"
-          @click="openSendModal">
-            Send
-        </PrimaryButton>
+    <div class="max-w-3xl mx-auto p-6 sm:p-8 lg:p-12 bg-white rounded-lg shadow-md">
+      <h1 class="text-2xl font-semibold text-gray-800 mb-6">Edit Message</h1>
+      
+      <form @submit.prevent="form.put(route('messages.update', message.id), { onSuccess: () => editing = false })">
+        <div class="mb-4">
+          <label for="subject" class="block text-lg font-medium text-gray-700">Message Subject:</label>
+          <textarea 
+            v-model="form.subject" 
+            id="subject" 
+            rows="4" 
+            class="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+            placeholder="Enter your message subject"></textarea>
+        </div>
+
+        <div class="flex justify-end space-x-4">
+          <PrimaryButton
+            class="bg-gray-200 text-gray-700 hover:bg-gray-300"
+            type="button"
+            @click="cancelEdit">
+              Cancel
+          </PrimaryButton>
+          <PrimaryButton
+            class="bg-blue-600 text-white hover:bg-blue-700"
+            type="submit">
+              Save
+          </PrimaryButton>
+          <PrimaryButton
+            class="bg-green-600 text-white hover:bg-green-700"
+            type="button"
+            @click="openSendModal">
+              Send
+          </PrimaryButton>
+        </div>
       </form>
     </div>
+
     <transition name="modal">
       <SendModal 
         v-if="showModal" 
