@@ -14,7 +14,8 @@ const props = defineProps({
 
 // Create a form instance with Inertia.js
 const form = useForm({
-  subject: props.message.subject
+  subject: props.message.subject,
+  recipientEmail: props.message.recipientEmail
 });
 
 const sendMessage = () => {
@@ -50,8 +51,20 @@ const openSendModal = () => {
   <AuthenticatedLayout>
     <div class="max-w-3xl mx-auto p-6 sm:p-8 lg:p-12 bg-white rounded-lg shadow-md">
       <h1 class="text-2xl font-semibold text-gray-800 mb-6">Edit Message</h1>
-      
+      <!-- TODO: steal the validation from the expanding form on messages.index -->
       <form @submit.prevent="form.put(route('messages.update', message.id), { onSuccess: () => editing = false })">
+        <!-- Recipient Email Field -->
+        <div class="mb-4">
+          <label for="recipientEmail" class="block text-lg font-medium text-gray-700">Recipient Email:</label>
+          <input 
+            v-model="form.recipientEmail" 
+            id="recipientEmail" 
+            type="email"
+            class="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+            placeholder="Enter recipient's email" />
+        </div>
+
+        <!-- Message Subject Field -->
         <div class="mb-4">
           <label for="subject" class="block text-lg font-medium text-gray-700">Message Subject:</label>
           <textarea 
@@ -62,6 +75,7 @@ const openSendModal = () => {
             placeholder="Enter your message subject"></textarea>
         </div>
 
+        <!-- Buttons -->
         <div class="flex justify-end space-x-4">
           <PrimaryButton
             class="bg-gray-200 text-gray-700 hover:bg-gray-300"
