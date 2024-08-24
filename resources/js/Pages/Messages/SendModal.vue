@@ -1,3 +1,26 @@
+<script setup>
+import { ref, computed } from 'vue';
+
+defineProps({
+  message: {
+    type: String,
+    required: true
+  }
+});
+
+const options = ref({
+  sendNotification: false,
+  markAsUrgent: false
+});
+
+const sendButtonEnabled = computed(() => {
+
+  return options.value.sendNotification && options.value.markAsUrgent;
+});
+
+defineEmits(['send', 'close']);
+</script>
+
 <template>
     <div class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full" id="my-modal">
       <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
@@ -5,7 +28,7 @@
           <h3 class="text-lg leading-6 font-medium text-gray-900">Send Message</h3>
           <div class="mt-2 px-7 py-3">
             <p class="text-sm text-gray-500">
-              Are you sure you want to send this message?
+              Are you sure you want to send this message?{{ sendButtonEnabled }}
             </p>
             <p class="text-sm text-gray-700 mt-1">
               "{{ message }}"
@@ -25,9 +48,14 @@
           </div>
           <div class="items-center px-4 py-3">
             <button
-              id="ok-btn"
-              @click="$emit('send', options)"
-              class="px-4 py-2 bg-blue-500 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-300"
+                id="ok-btn"
+                @click="$emit('send', options)"
+                class="px-4 py-2 bg-blue-500 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-300"
+                :disabled="!sendButtonEnabled"
+                :class="[
+                'px-4 py-2 text-white text-base font-medium rounded-md w-full shadow-sm focus:outline-none focus:ring-2',
+                sendButtonEnabled ? 'bg-blue-500 hover:bg-blue-700 focus:ring-blue-300' : 'bg-gray-400 cursor-not-allowed focus:ring-gray-300'
+                ]"
             >
               Send
             </button>
@@ -43,21 +71,3 @@
       </div>
     </div>
   </template>
-  
-  <script setup>
-  import { ref } from 'vue';
-  
-  defineProps({
-    message: {
-      type: String,
-      required: true
-    }
-  });
-  
-  const options = ref({
-    sendNotification: false,
-    markAsUrgent: false
-  });
-  
-  defineEmits(['send', 'close']);
-  </script>
