@@ -50,7 +50,7 @@ const openSendModal = () => {
 
   <AuthenticatedLayout>
     <div class="max-w-3xl mx-auto p-6 sm:p-8 lg:p-12 bg-white rounded-lg shadow-md">
-      <h1 class="text-2xl font-semibold text-gray-800 mb-6">Edit Message</h1>
+      <h1 class="text-2xl font-semibold text-gray-800 mb-6">Edit Message {{ $page.props.auth.user }}</h1>
       <!-- TODO: steal the validation from the expanding form on messages.index -->
       <form @submit.prevent="form.put(route('messages.update', message.id), { onSuccess: () => editing = false })">
         <!-- Recipient Email Field -->
@@ -89,10 +89,16 @@ const openSendModal = () => {
               Save
           </PrimaryButton>
           <PrimaryButton
-            class="bg-green-600 text-white hover:bg-green-700"
+            :class="{
+              'bg-green-600 text-white hover:bg-green-700': $page.props.auth.user.can_send_message,
+              'bg-gray-400 text-gray-700 cursor-not-allowed': !$page.props.auth.user.can_send_message
+            }"
+            :disabled="!$page.props.auth.user.can_send_message"
             type="button"
-            @click="openSendModal">
-              Send
+            @click="openSendModal"
+            :title="!$page.props.auth.user.can_send_message ? 'Can\'t send' : ''"
+          >
+            Send
           </PrimaryButton>
         </div>
       </form>
