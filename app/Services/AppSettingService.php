@@ -9,10 +9,11 @@ class AppSettingService
 {
     public function get(string $key, $default = null)
     {
-        return Cache::remember("app_setting_{$key}", 3600, function () use ($key, $default) {
+        // TODO: decide on cache shizzle
+        // return Cache::remember("app_setting_{$key}", 3600, function () use ($key, $default) {
             $setting = AppSetting::where('key', $key)->first();
             return $setting ? $this->castValue($setting->value, $setting->type) : $default;
-        });
+        // });
     }
 
     public function set(string $key, $value, string $type = 'string', string $description = null)
