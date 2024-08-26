@@ -3,7 +3,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import Message from '@/Components/Message.vue';
 import InputError from '@/Components/InputError.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { useForm, Head, router } from '@inertiajs/vue3';
 import SendModal from './SendModal.vue';
 
@@ -33,6 +33,8 @@ const showModal = ref(false);
 const openSendModal = () => {
   showModal.value = true;
 };
+
+const isMessageSent = computed(() => props.message.sent != null)
 
 </script>
 
@@ -84,9 +86,14 @@ const openSendModal = () => {
               Cancel
           </PrimaryButton>
           <PrimaryButton
-            class="bg-blue-600 text-white hover:bg-blue-700"
-            type="submit">
-              Save
+            :class="{
+              'bg-blue-600 text-white hover:bg-blue-700': !isMessageSent,
+              'bg-yellow-500 text-white hover:bg-yellow-600': isMessageSent
+            }"
+            type="submit"
+            :title="isMessageSent ? 'This message has been sent' : ''"
+          >
+            Save
           </PrimaryButton>
           <PrimaryButton
             :class="{

@@ -39,15 +39,14 @@ const form = useForm({
             </form>
 
             <!-- TODO: messages.edit with the correct id-->
-            <a :href="route('messages.update', { id: messages[0].id })" class="block mt-6 bg-white shadow-sm rounded-lg divide-y">
-                <div class="mt-6 bg-white shadow-sm rounded-lg divide-y">
-                    <Message
-                        v-for="message in messages"
-                        :key="message.id"
-                        :message="message"
-                    />
-                </div>
-            </a>
+            <div class="mt-6 bg-white shadow-sm rounded-lg divide-y">
+                <Message
+                    v-for="message in messages"
+                    :key="message.id"
+                    :message="message"
+                    :href="route('messages.update', { id: message.id })"
+                />
+            </div>
         </div>
     </AuthenticatedLayout>
 </template>

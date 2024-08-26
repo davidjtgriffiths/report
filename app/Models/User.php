@@ -78,7 +78,6 @@ class User extends Authenticatable
         $now = Carbon::now();
         $timeSinceLastMessage = abs($now->diffInDays($latestMessage->sent));
 
-        dump($timeSinceLastMessage >= $timePeriod);
         // Check if the user can send a message based on the time period
         return $timeSinceLastMessage >= $timePeriod;
 
