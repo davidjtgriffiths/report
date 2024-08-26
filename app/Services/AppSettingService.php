@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service;
+namespace App\Services;
 
 use App\Models\AppSetting;
 use Illuminate\Support\Facades\Cache;
@@ -36,7 +36,7 @@ class AppSettingService
         switch ($type) {
             case 'boolean':
                 return filter_var($value, FILTER_VALIDATE_BOOLEAN);
-            case 'integer':
+            case 'int':
                 return (int) $value;
             case 'float':
                 return (float) $value;

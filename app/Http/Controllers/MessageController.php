@@ -9,9 +9,17 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Services\AppSettingService;
 
 class MessageController extends Controller
 {
+    private $appSettingService;
+
+    public function __construct(AppSettingService $appSettingService)
+    {
+        $this->appSettingService = $appSettingService;
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -19,6 +27,7 @@ class MessageController extends Controller
     {
         return Inertia::render('Messages/Index', [
             'messages' => Message::with('user:id,name')->latest()->get(),
+            'testAppVar' => $this->appSettingService->get('testAppVar'),
         ]);
     }
 
