@@ -67,6 +67,7 @@ const isMessageSent = computed(() => props.message.sent != null)
         </div>
 
         <!-- Message Subject Field -->
+         <!-- TODO: lock all the inputs if sent -->
         <div class="mb-4">
           <label for="subject" class="block text-lg font-medium text-gray-700">Message Subject:</label>
           <textarea 
@@ -74,7 +75,9 @@ const isMessageSent = computed(() => props.message.sent != null)
             id="subject" 
             rows="4" 
             class="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:border-blue-300"
-            placeholder="Enter your message subject"></textarea>
+            placeholder="Enter your message subject"
+            :disabled="isMessageSent">
+          </textarea>
         </div>
 
         <!-- Buttons -->
