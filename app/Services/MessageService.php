@@ -9,9 +9,15 @@ class MessageService
 {
     public function blah(string $key, $default = null)
     {
-        // TODO: Use this to create the user and the conversation
-        // before sending etc
-            
+        // TODO: Housekeeping when message sent
+        // Create user for recipient 
+        // Create 'conversation' (issue?)
+        // Assign message -> conversation
+        // Generate magic login for recipient
+        // Email recipient
+        // (Message page filters sent)
+        // (Conversations page link only shows if user has a message associated with a conversation)
+        // Swap to conversations page    
     }
 
     
