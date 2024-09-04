@@ -10,7 +10,7 @@ class MessageService
     public function blah(string $key, $default = null)
     {
         // TODO: Housekeeping when message sent
-        // Sent flag for messages
+        // Sent flag for messages [x]
         // Create user for recipient 
         // Create 'conversation' (issue?)
         // Assign message -> conversation
