@@ -15,6 +15,7 @@ class Message extends Model
         'subject',
         'recipientEmail',
         'sent',
+        'issue_id',
     ];
 
     protected $dispatchesEvents = [
@@ -24,5 +25,10 @@ class Message extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function issue()
+    {
+        return $this->belongsTo(Issue::class);
     }
 }
