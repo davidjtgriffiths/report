@@ -10,14 +10,19 @@ use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 use Inertia\Response;
 use App\Services\AppSettingService;
+use App\Services\MessageService;
 
 class MessageController extends Controller
 {
     private $appSettingService;
+    private $messageService;
 
-    public function __construct(AppSettingService $appSettingService)
-    {
+    public function __construct(
+        AppSettingService $appSettingService,
+        MessageService $messageService,
+    ){
         $this->appSettingService = $appSettingService;
+        $this->messageService = $messageService;
     }
 
     /**
@@ -87,6 +92,18 @@ class MessageController extends Controller
         $message->update($validated);
  
         return redirect(route('messages.index'));
+    }
+
+    public function send(Request $request, $messageId)
+    {
+        $message = Message::findOrFail($messageId);
+        
+        // Assuming the recipientEmail is already set on the message
+        // If not, you might want to add it here based on the request data
+
+        $sentMessage = $this->messageService->send($message);
+
+        return response()->json(['message' => 'Message sent successfully', 'data' => $sentMessage]);
     }
 
     /**
