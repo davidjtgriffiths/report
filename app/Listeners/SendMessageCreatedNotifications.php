@@ -24,8 +24,8 @@ class SendMessageCreatedNotifications implements ShouldQueue
     public function handle(MessageCreated $event): void
     {
         // TODO: don't send yet
-        // foreach (User::whereNot('id', $event->message->user_id)->cursor() as $user) {
-        //     $user->notify(new NewMessage($event->message));
-        // }
+        foreach (User::whereNot('id', $event->message->user_id)->cursor() as $user) {
+            $user->notify(new NewMessage($event->message));
+        }
     }
 }
