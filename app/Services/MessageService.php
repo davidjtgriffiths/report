@@ -41,6 +41,7 @@ class MessageService
             $message->save();
 
             // TODO: Generate a magic login and send the message
+            // (see Claude)
 
             return $message;
         });

@@ -19,11 +19,20 @@ const form = useForm({
 });
 
 const sendMessage = () => {
-  // TODO:Implement your sendMessage logic here
-  console.log('Sending message...', props.message.id);
-  // For example:
-  // form.post(route('messages.send', props.messageId));
-};
+  form.post(route('messages.send', props.message.id), {
+    preserveScroll: true,
+    preserveState: true,
+    onSuccess: () => {
+      // Handle success (e.g., show a success message)
+      console.log('Message sent successfully')
+      // You might want to emit an event or update some local state here
+    },
+    onError: (errors) => {
+      // Handle errors (e.g., display error messages)
+      console.error('Error sending message:', errors)
+    },
+  })
+}
 
 const cancelEdit = () => {
   router.get(route('messages.index'));

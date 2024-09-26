@@ -29,4 +29,6 @@ Route::resource('messages', MessageController::class)
     ->only(['index', 'show', 'store', 'update', 'destroy'])
     ->middleware(['auth', 'verified']);
 
+Route::post('/messages/{message}/send', [MessageController::class, 'send'])->name('messages.send');
+
 require __DIR__.'/auth.php';
