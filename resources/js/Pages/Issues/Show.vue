@@ -14,8 +14,8 @@ const props = defineProps({
 
 // Create a form instance with Inertia.js
 const form = useForm({
-  subject: props.issue.subject,
-  recipientEmail: props.issue.recipientEmail
+  description: props.issue.description,
+  title: props.issue.title
 });
 
 const cancelEdit = () => {
@@ -48,30 +48,32 @@ const isIssueSent = computed(() => props.issue.sent != null)
       <h1 class="text-2xl font-semibold text-gray-800 mb-6">Edit Issue {{ $page.props.auth.user }}</h1>
       <!-- TODO: steal the validation from the expanding form on issues.index -->
       <form @submit.prevent="form.put(route('issues.update', issue.id), { onSuccess: () => editing = false })">
-        <!-- Recipient Email Field -->
+        <!-- Title Field -->
         <div class="mb-4">
-          <label for="recipientEmail" class="block text-lg font-medium text-gray-700">Recipient Email:</label>
+          <label for="title" class="block text-lg font-medium text-gray-700">Title:</label>
           <input 
-            v-model="form.recipientEmail" 
-            id="recipientEmail" 
-            type="email"
+            v-model="form.title" 
+            id="title" 
+            type="title"
             class="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:border-blue-300"
-            placeholder="Enter recipient's email" />
+            placeholder="Enter title" />
         </div>
 
-        <!-- Issue Subject Field -->
+        <!-- Issue Description Field -->
          <!-- TODO: lock all the inputs if sent -->
         <div class="mb-4">
-          <label for="subject" class="block text-lg font-medium text-gray-700">Issue Subject:</label>
+          <label for="description" class="block text-lg font-medium text-gray-700">Issue Description:</label>
           <textarea 
-            v-model="form.subject" 
-            id="subject" 
+            v-model="form.description" 
+            id="description" 
             rows="4" 
             class="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:border-blue-300"
-            placeholder="Enter your issue subject"
+            placeholder="Enter your issue description"
             :disabled="isIssueSent">
           </textarea>
         </div>
+
+        <!-- TODO: Put all the messages in here -->
 
         <!-- Buttons -->
         <div class="flex justify-end space-x-4">
