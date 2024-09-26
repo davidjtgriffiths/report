@@ -53,7 +53,7 @@ class MessageService
         // Create user for recipient 
         // Create 'conversation' (issue?)
         // Assign message -> conversation
-        // Generate magic login for recipient
+        // Generate magic login for recipient <---------------
         // Email recipient
         // (Message page filters sent)
         // (Conversations page link only shows if user has a message associated with a conversation)
