@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\MessageController;
+use App\Http\Controllers\IssueController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -30,5 +31,9 @@ Route::resource('messages', MessageController::class)
     ->middleware(['auth', 'verified']);
 
 Route::post('/messages/{message}/send', [MessageController::class, 'send'])->name('messages.send');
+
+Route::resource('issues', IssueController::class)
+    ->only(['index', 'show', 'store', 'update', 'destroy'])
+    ->middleware(['auth', 'verified']);
 
 require __DIR__.'/auth.php';
