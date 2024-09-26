@@ -1,6 +1,7 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import Issue from '@/Components/Issue.vue';
+import Message from '@/Components/Message.vue';
 import InputError from '@/Components/InputError.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import { ref, computed } from 'vue';
@@ -17,6 +18,12 @@ const form = useForm({
   description: props.issue.description,
   title: props.issue.title
 });
+
+const sortedMessages = computed(() => {
+  return [...props.issue.messages].sort((a, b) => {
+    return new Date(b.created_at) - new Date(a.created_at)
+  })
+})
 
 const cancelEdit = () => {
   router.get(route('issues.index'));
@@ -74,6 +81,16 @@ const isIssueSent = computed(() => props.issue.sent != null)
         </div>
 
         <!-- TODO: Put all the messages in here -->
+        <div
+          class="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+        >
+          <Message
+            v-for="message in sortedMessages"
+            :key="message.id"
+            :message="message"
+            :href="route('messages.update', { id: message.id })"
+                />
+        </div>
 
         <!-- Buttons -->
         <div class="flex justify-end space-x-4">

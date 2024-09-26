@@ -64,7 +64,9 @@ class IssueController extends Controller
         // TODO: authorise show issue
         // Gate::authorize('show', $issue);
 
-        $issue = Issue::findOrFail($id);
+        // $issue = Issue::findOrFail($id);
+        $issue = Issue::with('messages')->findOrFail($id);
+
         return Inertia::render('Issues/Show', [
             'issue' => $issue,
         ]);
